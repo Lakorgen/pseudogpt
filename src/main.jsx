@@ -5,8 +5,12 @@ import './index.css';
 
 import router from './routers/routes.jsx';
 
+import SnackbarProvider from './contexts/SnackbarContext.jsx';
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <SnackbarProvider>
+      <RouterProvider router={router} />
+    </SnackbarProvider>
   </StrictMode>,
 );
