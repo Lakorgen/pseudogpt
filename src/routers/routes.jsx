@@ -9,6 +9,7 @@ import registerLoader from './loaders/registerLoader';
 import loginLoader from './loaders/loginLoader';
 import resetLinkLoader from './loaders/resetLinkLoader';
 import resetPasswordLoader from './loaders/resetPasswordLoader';
+import appLoader from './loaders/appLoader';
 
 import registerAction from './actions/registerAction';
 import loginAction from './actions/loginAction';
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    loader: appLoader,
   },
   {
     path: '/register',
