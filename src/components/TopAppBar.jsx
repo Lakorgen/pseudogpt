@@ -5,6 +5,7 @@ import MenuItems from './MenuItems';
 import { LinearProgress } from './Progress';
 import { AnimatePresence } from 'motion/react';
 import Logo from './Logo';
+import PropTypes from 'prop-types';
 
 import { useToggle } from '../hooks/useToggle';
 
@@ -12,11 +13,10 @@ import logout from '../utils/logout';
 
 import { useNavigation, useNavigate, useLoaderData } from 'react-router-dom';
 
-const TopAppBar = () => {
+const TopAppBar = ({ toggleSidebar }) => {
   const navigation = useNavigation();
   const navigate = useNavigate();
   const { user } = useLoaderData();
-  console.log(user);
 
   const [showMenu, setShowMenu] = useToggle();
 
@@ -29,6 +29,7 @@ const TopAppBar = () => {
           icon='menu'
           title='menu'
           classes='lg:hidden'
+          onClick={toggleSidebar}
         />
         <Logo classes='lg:hidden' />
       </div>
@@ -47,6 +48,10 @@ const TopAppBar = () => {
       </div>
     </header>
   );
+};
+
+TopAppBar.propTypes = {
+  toggleSidebar: PropTypes.func,
 };
 
 export default TopAppBar;

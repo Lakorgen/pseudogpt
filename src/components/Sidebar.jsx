@@ -1,13 +1,19 @@
 import PropTypes from 'prop-types';
 import { ExtendedFab, IconBtn } from './Button';
 import { NavLink } from 'react-router-dom';
+import { motion } from 'motion/react';
 
 import Logo from './Logo';
 
-const Sidebar = () => {
+const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   return (
     <>
-      <div className='sidebar active'>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
+        className={`sidebar ${isSidebarOpen ? 'active' : ''}`}
+      >
         <div className='sidebar-inner'>
           <div className='h-16 grid items-center px-4 mb-4'>
             <Logo />
@@ -16,6 +22,7 @@ const Sidebar = () => {
             href='/'
             text='New chat'
             classes=''
+            onClick={toggleSidebar}
           />
 
           <div className='overflow-y-auto -me-2 pe-1'>
@@ -25,6 +32,7 @@ const Sidebar = () => {
                 <NavLink
                   to=''
                   className='nav-link'
+                  onClick={toggleSidebar}
                 >
                   <span className='material-symbols-rounded icon-small'>
                     chat_bubble
@@ -35,22 +43,30 @@ const Sidebar = () => {
                 <IconBtn
                   icon='delete'
                   size='small'
-                  classes='absolute top-1/2 right-1.5 -translate-y-1/2 z-10'
+                  classes='absolute top-1/2 right-1.5 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 hidden lg:grid'
                   title='Delete'
                 />
               </div>
             </nav>
           </div>
 
-          <div className='mt-auto mx-auto text-light-onSurfaceVariant dark:text-dark-onSurfaceVariant text-bodyMedium lg:mx-0'>
+          <div className='mt-4 h-14 px-4 grid items-center text-labelLarge text-light-onSurfaceVariant dark:text-dark-onSurfaceVariant border-t border-light-surfaceContainerHigh dark:border-dark-surfaceContainerHigh truncate'>
             &copy; 2024 Lakorgen
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      <div className='overlay active'></div>
+      <div
+        className={`overlay ${isSidebarOpen ? 'active' : ''}`}
+        onClick={toggleSidebar}
+      ></div>
     </>
   );
+};
+
+Sidebar.propTypes = {
+  isSidebarOpen: PropTypes.bool,
+  toggleSidebar: PropTypes.func,
 };
 
 export default Sidebar;
