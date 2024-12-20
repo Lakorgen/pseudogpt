@@ -14,7 +14,7 @@ import { useSnackbar } from '../hooks/useSnackbar';
 
 const ResetLink = () => {
   const actionData = useActionData();
-  console.log(actionData);
+  // console.log(actionData);
 
   const navigation = useNavigation();
 

@@ -1,31 +1,26 @@
 import { redirect } from 'react-router-dom';
-import { Query } from 'appwrite';
-
 import { account, databases } from '../../lib/appwrite';
 
-const appLoader = async () => {
+const conversationLoader = async ({ params }) => {
+  const { conversationId } = params;
   const data = {};
   try {
     data.user = await account.get();
   } catch (err) {
-    console.log(`Error getting user session ${err.message}`);
+    console.log(`Error getting user account: ${err.message}`);
     return redirect('/login');
   }
 
   try {
-    data.convarsation = await databases.listDocuments(
+    data.conversation = await databases.getDocument(
       import.meta.env.VITE_APPWRITE_DATABASE_ID,
       'conversations',
-      [
-        Query.select(['$id', "title"]),
-        Query.orderDesc("$createdAt"),
-        Query.equal('user_id', data.user.$id),
-      ]
+      conversationId,
     );
   } catch (err) {
     console.log(`Error getting conversation ${err.message}`);
+    throw err;
   }
   return data;
 };
-
-export default appLoader;
+export default conversationLoader;

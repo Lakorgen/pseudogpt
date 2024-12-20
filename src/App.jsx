@@ -1,5 +1,6 @@
 import PageTitle from './components/PageTitle';
 import { motion } from 'motion/react';
+import { Outlet, useParams } from 'react-router-dom';
 
 import { useToggle } from './hooks/useToggle';
 
@@ -9,7 +10,10 @@ import Greetings from './pages/Greetings';
 import PromptField from './components/PromptField';
 
 const App = () => {
+  const params = useParams();
+
   const [isSidebarOpen, toggleSidebar] = useToggle();
+
   return (
     <>
       <PageTitle title='PseudoGPT - chat' />
@@ -22,7 +26,7 @@ const App = () => {
           <TopAppBar toggleSidebar={toggleSidebar} />
           <div className='px-5 flex flex-col overflow-y-auto'>
             <div className='max-w-[840px] w-full mx-auto grow'>
-              <Greetings />
+              {params.conversationId ? <Outlet /> : <Greetings />}
             </div>
             <div className='bg-light-background dark:bg-dark-background'>
               <div className='max-w-[870px] px-5 w-full mx-auto'>

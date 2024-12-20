@@ -4,18 +4,21 @@ import Register from '../pages/Register';
 import Login from '../pages/Login';
 import ResetLink from '../pages/ResetLink';
 import ResetPassword from '../pages/ResetPassword';
+import Conversation from '../pages/Conversation';
 
 import registerLoader from './loaders/registerLoader';
 import loginLoader from './loaders/loginLoader';
 import resetLinkLoader from './loaders/resetLinkLoader';
 import resetPasswordLoader from './loaders/resetPasswordLoader';
 import appLoader from './loaders/appLoader';
+import conversationLoader from './loaders/convarsationLoader';
 
 import registerAction from './actions/registerAction';
 import loginAction from './actions/loginAction';
 import resetLinkAction from './actions/resetLinkAction';
 import resetPasswordAction from './actions/resetPasswordAction';
 import appAction from './actions/appAction';
+import conversationAction from './actions/conversationAction';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +26,14 @@ const router = createBrowserRouter([
     element: <App />,
     loader: appLoader,
     action: appAction,
+    children: [
+      {
+        path: '/:conversationId',
+        element: <Conversation />,
+        loader: conversationLoader,
+        action: conversationAction
+      },
+    ],
   },
   {
     path: '/register',

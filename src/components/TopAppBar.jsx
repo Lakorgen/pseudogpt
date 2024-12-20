@@ -44,8 +44,8 @@ const TopAppBar = ({ toggleSidebar }) => {
             onClick={() => logout(navigate)}
           />
         </Menu>
-        <AnimatePresence>{isNormalLoad && <LinearProgress />}</AnimatePresence>
       </div>
+        <AnimatePresence>{isNormalLoad && <LinearProgress classes='absolute top-full left-0 right-0 z-10'/>}</AnimatePresence>
     </header>
   );
 };
