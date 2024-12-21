@@ -1,14 +1,20 @@
 import PropTypes from 'prop-types';
 import { ExtendedFab, IconBtn } from './Button';
-import { NavLink, useLoaderData } from 'react-router-dom';
+import { NavLink, useLoaderData, useSubmit, useParams } from 'react-router-dom';
 import { motion } from 'motion/react';
+
+import { deleteConversation } from '../utils/deleteConversation';
 
 import Logo from './Logo';
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const {
-    convarsation: { documents: convarsationData },
+    convarsations: { documents: convarsationData },
   } = useLoaderData();
+
+  const submit = useSubmit();
+
+  const { conversationId } = useParams();
 
   return (
     <>
@@ -27,13 +33,17 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             text='New chat'
             classes='mb-4'
             onClick={toggleSidebar}
+            disabled={!conversationId}
           />
 
           <div className='overflow-y-auto -me-2 pe-1'>
             <p className='text-titleSmall h-9 grid items-center px-4'>Recent</p>
             <nav className=''>
               {convarsationData.map((item) => (
-                <div key={item.$id} className='relative group'>
+                <div
+                  key={item.$id}
+                  className='relative group'
+                >
                   <NavLink
                     to={item.$id}
                     className='nav-link'
@@ -51,6 +61,13 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                     size='small'
                     classes='absolute top-1/2 right-1.5 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 hidden lg:grid'
                     title='Delete'
+                    onClick={() => {
+                      deleteConversation({
+                        id: item.$id,
+                        title: item.title,
+                        submit,
+                      });
+                    }}
                   />
                 </div>
               ))}

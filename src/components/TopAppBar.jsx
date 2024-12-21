@@ -11,12 +11,22 @@ import { useToggle } from '../hooks/useToggle';
 
 import logout from '../utils/logout';
 
-import { useNavigation, useNavigate, useLoaderData } from 'react-router-dom';
+import { deleteConversation } from '../utils/deleteConversation';
+
+import {
+  useNavigation,
+  useNavigate,
+  useLoaderData,
+  useParams,
+  useSubmit,
+} from 'react-router-dom';
 
 const TopAppBar = ({ toggleSidebar }) => {
   const navigation = useNavigation();
   const navigate = useNavigate();
-  const { user } = useLoaderData();
+  const { convarsations, user } = useLoaderData();
+  const params = useParams();
+  const submit = useSubmit();
 
   const [showMenu, setShowMenu] = useToggle();
 
@@ -33,6 +43,22 @@ const TopAppBar = ({ toggleSidebar }) => {
         />
         <Logo classes='lg:hidden' />
       </div>
+      {params.conversationId && (
+        <IconBtn
+          icon='delete'
+          classes='ms-auto me-1 lg:hidden'
+          onClick={() => {
+            const { title } = convarsations.documents.find(
+              ({ $id }) => params.conversationId === $id,
+            );
+            deleteConversation({
+              id: params.conversationId,
+              title,
+              submit,
+            });
+          }}
+        />
+      )}
       <div className='menu-wrapper'>
         <IconBtn onClick={setShowMenu}>
           <Avatar name={user.name} />
@@ -45,7 +71,11 @@ const TopAppBar = ({ toggleSidebar }) => {
           />
         </Menu>
       </div>
-        <AnimatePresence>{isNormalLoad && <LinearProgress classes='absolute top-full left-0 right-0 z-10'/>}</AnimatePresence>
+      <AnimatePresence>
+        {isNormalLoad && (
+          <LinearProgress classes='absolute top-full left-0 right-0 z-10' />
+        )}
+      </AnimatePresence>
     </header>
   );
 };

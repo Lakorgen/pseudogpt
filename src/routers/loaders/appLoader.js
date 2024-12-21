@@ -13,7 +13,7 @@ const appLoader = async () => {
   }
 
   try {
-    data.convarsation = await databases.listDocuments(
+    data.convarsations = await databases.listDocuments(
       import.meta.env.VITE_APPWRITE_DATABASE_ID,
       'conversations',
       [

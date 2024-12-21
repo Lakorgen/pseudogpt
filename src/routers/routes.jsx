@@ -5,6 +5,8 @@ import Login from '../pages/Login';
 import ResetLink from '../pages/ResetLink';
 import ResetPassword from '../pages/ResetPassword';
 import Conversation from '../pages/Conversation';
+import ConversationError from '../pages/ConversationError';
+import RootError from '../pages/RootError';
 
 import registerLoader from './loaders/registerLoader';
 import loginLoader from './loaders/loginLoader';
@@ -26,12 +28,14 @@ const router = createBrowserRouter([
     element: <App />,
     loader: appLoader,
     action: appAction,
+    errorElement: <RootError />,
     children: [
       {
         path: '/:conversationId',
         element: <Conversation />,
         loader: conversationLoader,
-        action: conversationAction
+        action: conversationAction,
+        errorElement: <ConversationError />,
       },
     ],
   },

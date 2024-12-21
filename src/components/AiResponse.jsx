@@ -27,22 +27,25 @@ const AiResponse = ({ aiResponse, children }) => {
     return () => mediaQuery.removeEventListener('change', themeListener);
   }, []);
 
-  const handleCopy = useCallback(async (text) => {
-    hideSnackbar()
-    try {
-      await navigator.clipboard.writeText(text);
-      showSnackbar({
-        message: 'Copying to clipboard',
-        timeOut: 2500
-      });
-    } catch (err) {
-      showSnackbar({
-        message: err.message,
-        type: "error"
-      })
-      console.log(`Error copying text ${err.message}`);
-    }
-  }, [showSnackbar, hideSnackbar]);
+  const handleCopy = useCallback(
+    async (text) => {
+      hideSnackbar();
+      try {
+        await navigator.clipboard.writeText(text);
+        showSnackbar({
+          message: 'Copying to clipboard',
+          timeOut: 2500,
+        });
+      } catch (err) {
+        showSnackbar({
+          message: err.message,
+          type: 'error',
+        });
+        console.log(`Error copying text ${err.message}`);
+      }
+    },
+    [showSnackbar, hideSnackbar],
+  );
 
   const code = ({ children, className, ...rest }) => {
     const match = className?.match(/language-(\w+)/);
@@ -113,14 +116,17 @@ const AiResponse = ({ aiResponse, children }) => {
         />
       </figure>
       {children}
-      <div className='markdown-content'>
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          components={{ code }}
-        >
-          {aiResponse}
-        </ReactMarkdown>
-      </div>
+
+      {aiResponse && (
+        <div className='markdown-content'>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{ code }}
+          >
+            {aiResponse}
+          </ReactMarkdown>
+        </div>
+      )}
     </div>
   );
 };

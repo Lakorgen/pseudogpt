@@ -1,8 +1,16 @@
 import PageTitle from './components/PageTitle';
 import { motion } from 'motion/react';
-import { Outlet, useParams } from 'react-router-dom';
+import {
+  Outlet,
+  useParams,
+  useNavigation,
+  useActionData,
+} from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 
 import { useToggle } from './hooks/useToggle';
+import { useSnackbar } from './hooks/useSnackbar';
+import { usePromptPreloader } from './hooks/usePromptPreloader';
 
 import TopAppBar from './components/TopAppBar';
 import Sidebar from './components/Sidebar';
@@ -12,7 +20,37 @@ import PromptField from './components/PromptField';
 const App = () => {
   const params = useParams();
 
+  const navigation = useNavigation();
+
+  const actionData = useActionData();
+
+  const chatHistoryRef = useRef();
+
   const [isSidebarOpen, toggleSidebar] = useToggle();
+
+  const { promptPreloaderValue } = usePromptPreloader();
+
+  const { showSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    const chatHistory = chatHistoryRef.current;
+    if (promptPreloaderValue) {
+      chatHistory.scroll({
+        top: chatHistory.scrollHeight - chatHistory.clientHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [chatHistoryRef, promptPreloaderValue]);
+
+  useEffect(() => {
+    if (actionData?.conversationTitle) {
+      showSnackbar({
+        message: `Deleted '${actionData.conversationTitle}' conversation.`,
+      });
+    }
+  }, [actionData, showSnackbar]);
+
+  const isNormalLoad = navigation.state === 'loading' && !navigation.formData;
 
   return (
     <>
@@ -24,9 +62,16 @@ const App = () => {
         />
         <div className='h-dvh grid grid-rows-[max-content,minmax(0,1fr),max-content]'>
           <TopAppBar toggleSidebar={toggleSidebar} />
-          <div className='px-5 flex flex-col overflow-y-auto'>
+          <div
+            ref={chatHistoryRef}
+            className='px-5 flex flex-col overflow-y-auto'
+          >
             <div className='max-w-[840px] w-full mx-auto grow'>
-              {params.conversationId ? <Outlet /> : <Greetings />}
+              {isNormalLoad ? null : params.conversationId ? (
+                <Outlet />
+              ) : (
+                <Greetings />
+              )}
             </div>
             <div className='bg-light-background dark:bg-dark-background'>
               <div className='max-w-[870px] px-5 w-full mx-auto'>

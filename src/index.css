@@ -599,63 +599,66 @@ focus:shadow-none;
   .markdown-content strong code {
     @apply text-light-onSurface
     dark:text-dark-onSurface
-    font-semibold
+    font-semibold;
   }
   .markdown-content pre code {
-    @apply 
-    block
+    @apply block
     py-2
     px-3
-    overflow-x-auto
+    overflow-x-auto;
   }
-  .markdown-content table{
-    @apply
-    bg-light-surfaceContainer
+  .markdown-content table {
+    @apply bg-light-surfaceContainer
     dark:bg-dark-surfaceContainer
     block
     max-w-max
     overflow-auto
-    rounded-large
+    rounded-large;
   }
 
-  .markdown-content th{
-    @apply
-    text-titleMedium
+  .markdown-content th {
+    @apply text-titleMedium
     p-4
     text-left
-    whitespace-nowrap
+    whitespace-nowrap;
   }
-  .markdown-content td{
-    @apply
-    text-bodyMedium
+  .markdown-content td {
+    @apply text-bodyMedium
     py-3
     px-4
     border-t-[1px]
     border-solid
     border-light-surfaceContainerHigh
-    dark:border-dark-surfaceContainerHigh
+    dark:border-dark-surfaceContainerHigh;
   }
 
   .markdown-content a {
-    @apply
-
-    text-light-primary
+    @apply text-light-primary
     dark:text-dark-primary
     underline
-    break-words
+    break-words;
   }
 
-  .markdown-content .code-block{
-@apply 
-bg-light-surfaceContainer
-dark:bg-dark-surfaceContainer
-rounded-t-medium
-rounded-b-extraSmall
-mb-0.5
-overflow-hidden
+  .markdown-content .code-block {
+    @apply bg-light-surfaceContainer
+    dark:bg-dark-surfaceContainer
+    rounded-t-medium
+    rounded-b-extraSmall
+    mb-0.5
+    overflow-hidden;
   }
-  .markdown-content .code-block *{
-@apply !bg-inherit
+  .markdown-content .code-block * {
+    @apply !bg-inherit;
+  }
+
+  .skeleton{
+    @apply
+    h-4
+    w-full
+    bg-light-surfaceContainerHighest
+    dark:bg-dark-surfaceContainerHighest
+    my-3
+    rounded-extraSmall
   }
 }
 
